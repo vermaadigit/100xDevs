@@ -24,9 +24,19 @@ function waitfor3S(resolve)
     setTimeout(resolve, 3000);
 }
 
+function setTimeoutPromisified()
+{
+    return new Promise(waitfor3S);
+}
+
 function main()
 {
     console.log("Main Function is Called !!")
+    
+    setTimeout(() => {
+        console.log("Inside SetTimeout");
+    }, 3000)
+    
 }
 
-waitfor3S(main);
+setTimeoutPromisified().then(main);

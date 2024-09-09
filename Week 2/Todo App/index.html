@@ -3,6 +3,7 @@
         <title>Todo App</title>
     </head>
     <body>
+        <div id="todoContainer"></div>
         <input type="text">
         <button onclick="addTodo()">Add Todo !!</button>
 
@@ -10,4 +11,29 @@
         
 
     </body>
+    <script>
+
+        let ctr = 1;
+
+        function deleteTodo(index) 
+        {
+            const element = document.getElementById(index)
+            element.parentNode.removeChild(element);
+            ctr = ctr - 1
+        }
+
+        function addTodo()
+        {
+            const inputEl = document.querySelector("input")
+            const value = inputEl.value
+
+            const newDivEl = document.createElement("div")
+            newDivEl.setAttribute("id", ctr)
+            
+            newDivEl.innerHTML = `<div> ${value} </div><button onclick = 'deleteTodo(${ctr})'>Delete</button>`
+
+            document.querySelector("#todoContainer").appendChild(newDivEl)
+            ctr = ctr + 1
+        }
+    </script>
 </html>

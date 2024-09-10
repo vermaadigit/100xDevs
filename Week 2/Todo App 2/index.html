@@ -1,3 +1,6 @@
+<head>
+  <title>Todo App</title>
+</head>
 <body>
     <input type="text"></input>
     <button onclick="addTodo()">Add todo!</button>
@@ -39,7 +42,7 @@
         render()
       }
 
-      function createTodoComponent(todo)
+      function createTodoComponent(todo, index)
       {
         const divEl = document.createElement("div")
         const h1El = document.createElement("h1")

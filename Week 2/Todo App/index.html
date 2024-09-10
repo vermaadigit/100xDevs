@@ -19,21 +19,34 @@
         {
             const element = document.getElementById(index)
             element.parentNode.removeChild(element);
-            ctr = ctr - 1
         }
 
         function addTodo()
         {
-            const inputEl = document.querySelector("input")
-            const value = inputEl.value
+            // const inputEl = document.querySelector("input")
+            // const value = inputEl.value
 
-            const newDivEl = document.createElement("div")
-            newDivEl.setAttribute("id", ctr)
+            // const newDivEl = document.createElement("div")
+            // newDivEl.setAttribute("id", ctr)
             
-            newDivEl.innerHTML = `<div> ${value} </div><button onclick = 'deleteTodo(${ctr})'>Delete</button>`
+            // newDivEl.innerHTML = `<div> ${value} </div><button onclick = 'deleteTodo(${ctr})'>Delete</button>`
 
-            document.querySelector("#todoContainer").appendChild(newDivEl)
-            ctr = ctr + 1
+            // document.querySelector("#todoContainer").appendChild(newDivEl)
+            // ctr = ctr + 1
+
+            const value = document.querySelector("input").value
+
+            const spanEl = document.createElement("span")
+            const buttonEl = document.createElement("button")
+
+            spanEl.innerHTML = value
+            buttonEl.innerHTML = "delete"
+
+            const divEl = document.createElement("Div")
+            divEl.appendChild(spanEl)
+            divEl.appendChild(buttonEl)
+
+            document.querySelector("body").appendChild(divEl)
         }
     </script>
 </html>

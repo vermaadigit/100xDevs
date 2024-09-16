@@ -14,6 +14,20 @@ function enoughAge(age)
     }
 }
 
+function enoughAgeMiddleware(req, res, next)
+{
+    if (age >= 14)
+    {
+        next()
+    }
+    else
+    {
+        res.json({
+            msg : 'Sorry you are not of age yet',
+        })
+    }
+}
+
 app.get('/ride1', function(req, res) {
 
     if(enoughAge(req.query.age))

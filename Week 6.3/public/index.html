@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
     <script>
-        function sendRequest()
+        async function sendRequest()
         {
-            axios.post("http://localhost:3000/sum", {
+            const response = await axios.post("http://localhost:3001/sum", {
                 a: document.getElementById("a").value,
                 b: document.getElementById("b").value
             })
+            console.log(response.data)
         }
     </script>
     <title>Backend Server</title>

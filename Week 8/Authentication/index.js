@@ -95,7 +95,6 @@ app.get('/me', function(req, res) {
             foundUser = users[i]
         }
     }
-    
     if (foundUser)
     {
         res.json ({
@@ -109,8 +108,6 @@ app.get('/me', function(req, res) {
             message : 'Invalid Token'
         })
     }
-
-
 })
 
 app.listen(3000)

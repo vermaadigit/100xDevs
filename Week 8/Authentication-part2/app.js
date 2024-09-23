@@ -1,8 +1,14 @@
 const express = require('express');
+
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = 'secret';    
+
+
 const app = express();
 
 
 const users = []
+app.use(express.json());
 
 app.post('/signup', function(req, res) {
     const username = req.body.username;
@@ -21,7 +27,7 @@ app.post('/signup', function(req, res) {
 
 })
 
-app.post('login', function(req, res) {
+app.post('/login', function(req, res) {
     const username = req.body.username;
     const password = req.body.password;
 
@@ -59,7 +65,7 @@ app.get('/user', function(req, res) {
 
     const username = decodedInformation.username;
 
-    let founbdUser = null
+    let foundUser = null
 
     for (let i = 0; i < users.length; i++)
     {

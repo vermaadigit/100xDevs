@@ -62,17 +62,34 @@ app.post('/login', function(req, res) {
     console.log(users)
 })
 
-app.get('/user', function(req, res) {
+function auth(req, res, next) {
     const token = req.headers.token;
     const decodedInformation = jwt.verify(token, JWT_SECRET);
 
-    const username = decodedInformation.username;
+    if (decodedInformation.username)
+    {
+        req.username = decodedInformation.username
+        next()
+    }
+    else
+    {
+        res.status(403).send ({
+            msg : 'Invalid Token'
+        })  
+    }
+}
+
+app.get('/user', auth, function(req, res) {
+    // const token = req.headers.token;
+    // const decodedInformation = jwt.verify(token, JWT_SECRET);
+
+    // const username = decodedInformation.username;
 
     let foundUser = null
 
     for (let i = 0; i < users.length; i++)
     {
-        if (users[i].username === username)
+        if (users[i].username === req.username)
         {
             foundUser = users[i]
         }

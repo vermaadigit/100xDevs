@@ -10,7 +10,12 @@ const app = express();
 const users = []
 app.use(express.json());
 
-app.post('/signup', function(req, res) {
+function logger(req, res, next) {
+    console.log(`${req.method} request came`)
+    next()
+}
+
+app.post('/signup', logger, function(req, res) {
     const username = req.body.username;
     const password = req.body.password;
 
@@ -27,7 +32,7 @@ app.post('/signup', function(req, res) {
 
 })
 
-app.post('/login', function(req, res) {
+app.post('/login', logger, function(req, res) {
     const username = req.body.username;
     const password = req.body.password;
 
@@ -79,7 +84,7 @@ function auth(req, res, next) {
     }
 }
 
-app.get('/user', auth, function(req, res) {
+app.get('/user',logger, auth, function(req, res) {
     // const token = req.headers.token;
     // const decodedInformation = jwt.verify(token, JWT_SECRET);
 

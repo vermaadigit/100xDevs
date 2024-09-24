@@ -47,6 +47,9 @@ app.post('/login', function(req, res) {
             username: username
         }, JWT_SECRET);
 
+        res.header('token', token)
+        res.header('random', 'randomAditya')
+
         res.json ({
             token : token
         })

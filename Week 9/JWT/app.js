@@ -1,9 +1,23 @@
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
 
-const value = {
-    name : 'aditya',
-    accountNumber : 1231123123
+// const value = {
+//     name : 'aditya',
+//     accountNumber : 1231123123
+// }
+
+// const token = jwt.sign(value, 'secretKey');
+// console.log(token);
+
+
+
+//Try and catch block
+
+try {
+    let a
+    console.log(a.length)
+    console.log("I am the first to execute")
+} catch (error) {
+    console.log("Inside catch block")
 }
 
-const token = jwt.sign(value, 'secretKey');
-console.log(token);
+console.log("I am the last to execute")

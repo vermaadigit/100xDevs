@@ -22,8 +22,3 @@ try {
 
 console.log("I am the last to execute")
 
-
-
-
-
-

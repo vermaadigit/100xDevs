@@ -1,5 +1,10 @@
 const express = require('express')
 const {UserModel, TodoModel } = require('./db.js')
+const jwt = require('jsonwebtoken')
+const mongoose = require('mongoose')
+const JWT_SECRET = 'JsonSecretFile'
+
+mongoose.connect("mongodb+srv://admin:Aditya112233@cluster0.lq0xy.mongodb.net/Todo-app-database")
 
 const app = express()
 app.use(express.json())
@@ -9,7 +14,7 @@ app.post('/signup', async function(req, res) {
     const password = req.body.password
     const name = req.body.name
 
-    await UserModel.insert({
+    await UserModel.create({
         email : email,
         password : password,
         name : name
@@ -20,20 +25,24 @@ app.post('/signup', async function(req, res) {
     })
 })
 
-app.post('/login', function(req, res) {
+app.post('/login', async function(req, res) {
 
-    const username = req.body.username
+    const email = req.body.email
     const password = req.body.password
 
-    const user = UserModel.findOne ({
+    const user = await UserModel.findOne ({
         email : email,
         password : password
     })
 
+    console.log(user)
+
     if (user) {
-        const token = ""
+        const token = jwt.sign ({
+            id : user._id
+        }, JWT_SECRET)
         res.json ({
-            
+            token : token
         })
     }
     else {

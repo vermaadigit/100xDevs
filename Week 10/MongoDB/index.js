@@ -1,8 +1,8 @@
 const express = require('express')
 const {UserModel, TodoModel } = require('./db.js')
+const { auth, JWT_SECRET } = require("./auth")
 const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
-const JWT_SECRET = 'JsonSecretFile'
 
 mongoose.connect("mongodb+srv://admin:Aditya112233@cluster0.lq0xy.mongodb.net/Todo-app-database")
 
@@ -30,14 +30,14 @@ app.post('/login', async function(req, res) {
     const email = req.body.email
     const password = req.body.password
 
-    const user = await UserModel.findOne ({
+    const response = await UserModel.findOne ({
         email : email,
         password : password
     })
 
-    console.log(user)
+    console.log(response)
 
-    if (user) {
+    if (response) {
         const token = jwt.sign ({
             id : user._id.toString()
         }, JWT_SECRET)
@@ -77,22 +77,22 @@ app.get('/todos', auth, async function(req, res) {
     })
 })
 
-function auth(req, res, next)
-{
-    const token = req.headers.token
+// function auth(req, res, next)
+// {
+//     const token = req.headers.token
 
-    const decodedData = jwt.verify(token, JWT_SECRET)
+//     const decodedData = jwt.verify(token, JWT_SECRET)
 
-    if (decodedData)
-    {
-        req.userId = decodedData.id
-        next()
-    }
-    else{
-        res.status(403).json({
-            message : "Incorrect Credentials"
-        })
-    }
-}
+//     if (decodedData)
+//     {
+//         req.userId = decodedData.id
+//         next()
+//     }
+//     else{
+//         res.status(403).json({
+//             message : "Incorrect Credentials"
+//         })
+//     }
+// }
 
 app.listen(3000)

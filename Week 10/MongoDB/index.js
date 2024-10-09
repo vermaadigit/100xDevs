@@ -1,8 +1,10 @@
+const bcrypt = require('bcrypt')
 const express = require('express')
 const {UserModel, TodoModel } = require('./db.js')
 const { auth, JWT_SECRET } = require("./auth")
 const jwt = require('jsonwebtoken')
 const mongoose = require('mongoose')
+const { z } = require("zod")
 
 mongoose.connect("mongodb+srv://admin:Aditya112233@cluster0.lq0xy.mongodb.net/Todo-app-database")
 
@@ -10,13 +12,34 @@ const app = express()
 app.use(express.json())
 
 app.post('/signup', async function(req, res) {
+    const requiredBody = z.object({
+        email : z.string().min(3).max(30).email(),
+        password : z.string().min(3).max(30),
+        name : z.string().min(3).max(40)
+    })
+
+    // const parsedData = requiredBody.parse(req.body)
+    const parsedDataWithSuccess = requiredBody.safeParse(req.body)
+
+    if (!parsedDataWithSuccess.success){
+        res.json({
+            message : "Incorrect Format",
+            error : parsedDataWithSuccess.error
+        })
+        return
+    }
+
     const email = req.body.email
     const password = req.body.password
     const name = req.body.name
 
+    const hashedPassword = await bcrypt.hash(password, 5)
+    console.log(hashedPassword)
+    
+
     await UserModel.create({
         email : email,
-        password : password,
+        password : hashedPassword,
         name : name
     })
 
@@ -32,14 +55,21 @@ app.post('/login', async function(req, res) {
 
     const response = await UserModel.findOne ({
         email : email,
-        password : password
+        // password : password
     })
 
-    console.log(response)
+    if(!response) {
+        res.status(403).json({
+            message : "User does not exist in our DB"
+        })
+        return
+    }
 
-    if (response) {
+    const passwordMatch = await bcrypt.compare(password, response.password)
+
+    if (passwordMatch) {
         const token = jwt.sign ({
-            id : user._id.toString()
+            id : response._id.toString()
         }, JWT_SECRET)
         res.json ({
             token : token
